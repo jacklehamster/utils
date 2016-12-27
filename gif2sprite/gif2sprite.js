@@ -35,8 +35,8 @@ function magic(f, img) {
 
 
   var canvas = document.createElement('canvas');
-  var width = img.clientWidth,
-    height = img.clientHeight;
+  var width = img.naturalWidth,
+    height = img.naturalHeight;
   var cols = calculateBestSize(width, height, f.length);
   var rows = Math.ceil(f.length / cols);
   canvas.width = width * cols * scale;
@@ -60,18 +60,18 @@ function magic(f, img) {
   
   document.getElementById('info').innerHTML = 
     "Scale: " + scale*100 + "%\n" +
+    "Sprite size: " + width*scale + "x" + height*scale + "\n" +
     "Image type: " + imagetype + "\n" +
     "Number of sprites: " + f.length + "\n" +
-    "Sprite size: " + width*scale + "x" + height*scale + "\n" +
     "Grid dimension: " + cols + "x" + rows + "\n" +
     "Full image size: " + canvas.width + "x" + canvas.height + "\n";
 
   setTimeout(function() {
-    document.getElementById('result').src = canvas.toDataURL();
+    var url = canvas.toDataURL(imagetype);
+    document.getElementById('result').src = url;
     var link = document.getElementById('link');
-    link.href = canvas.toDataURL(imagetype);
-    link.target = "_blank";
-    link.download = 'spritesheet.png';
+    link.href = url;
+    //window.open('data:attachment/csv;charset=utf-8,' + encodeURI(csvString));
   }, 1000);
 }
 
@@ -89,8 +89,8 @@ function sampleImg(img) {
   var count = 0;
   var f = [];
   var canvas = document.createElement('canvas');
-  canvas.width = img.clientWidth;
-  canvas.height = img.clientHeight;
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
   var ctx = canvas.getContext("2d");
   (function() {
     var i = window.setInterval(function() {
@@ -102,7 +102,22 @@ function sampleImg(img) {
         count++;
         frames[url] = count;
         f.push(url);
+        
+        
       }
+      
+        var imagetype = document.getElementById('imagetype').value;
+        var scale = parseFloat(document.getElementById('scale').value);
+        if(isNaN(scale)) {
+            scale = 1;
+        }        
+        document.getElementById('info').innerHTML = 
+            "Scale: " + scale*100 + "%\n" +
+            "Sprite size: " + img.naturalWidth*scale + "x" + img.naturalHeight*scale + "\n" +
+            "Image type: " + imagetype + "\n" +
+            "Number of frames: " + count + "\n" +
+            (Date.now() - lastUpdate < 500 ? "" : Math.ceil(4-(Date.now() - lastUpdate)/1000)+" sec.");
+            
       if (Date.now() - lastUpdate > 3000) {
         clearInterval(i);
         magic(f, img);
