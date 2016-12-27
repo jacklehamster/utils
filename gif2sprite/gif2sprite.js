@@ -71,7 +71,6 @@ function magic(f, img) {
     document.getElementById('result').src = url;
     var link = document.getElementById('link');
     link.href = url;
-    //window.open('data:attachment/csv;charset=utf-8,' + encodeURI(csvString));
   }, 1000);
 }
 
