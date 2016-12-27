@@ -11,11 +11,11 @@
 <a href="https://github.com/jacklehamster/utils/tree/gh-pages/gif2sprite" target="_blank">
     <img title="Source Code" src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png" width="25" height="25">
 </a>
-<h2 style="color:red">
+<h2 style="color:red" id="safari">
     NOTE: Only works on <a href="http://www.apple.com/safari/" target="_blank">SAFARI</a>
 </h2>
 <p>
-    <img align="left" src="" id="image1" style="margin:5px; height:220px"><br>
+    <img align="left" src="sample.gif" id="image1" style="margin:5px; height:220px"><br>
         SCALE:<input id="scale" type="text" value="0.9">
         <br>
         Output to:<select id="imagetype">
@@ -23,14 +23,14 @@
         <option value="image/jpeg">jpg</option>
     </select>
         <br><br>
-        Select a gif to load: <input type="file" id="input" accept="image/gif"/>
+        Select a gif to load: <input type="file" id="input" accept="image/*"/>
         <pre>
                 <div id="info">
                     
                 </div>
             </pre>
     <a id='link' target="_blank" href='#' download="spritesheet">
-        <img align="left" src="" id="result">
+        <img style="border:2px solid black" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" id="result">
     </a>    
 </p>
 </body>

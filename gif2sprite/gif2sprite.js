@@ -3,9 +3,6 @@ function handleFiles(e) {
   var reader = new FileReader;
   reader.onload = function(event) {
     var img = document.getElementById('image1');
-    img.onload = function() {
-      sampleImg(img);
-    }
     img.src = event.target.result;
   }
   reader.readAsDataURL(e.target.files[0]);
@@ -82,7 +79,7 @@ function putImage(src, ctx, x, y, w, h) {
   img.src = src;
 }
 
-function sampleImg(img) {
+function sampleImg(img, banana) {
   var lastUpdate;
   var frames = {};
   var count = 0;
@@ -115,9 +112,9 @@ function sampleImg(img) {
             "Sprite size: " + img.naturalWidth*scale + "x" + img.naturalHeight*scale + "\n" +
             "Image type: " + imagetype + "\n" +
             "Number of frames: " + count + "\n" +
-            (Date.now() - lastUpdate < 500 ? "" : Math.ceil(4-(Date.now() - lastUpdate)/1000)+" sec.");
+            (Date.now() - lastUpdate < 100 ? "" : Math.ceil(3-(Date.now() - lastUpdate)/1000)+" sec.");
             
-      if (Date.now() - lastUpdate > 3000) {
+      if (Date.now() - lastUpdate > 2000 || banana && Date.now() - lastUpdate>400) {
         clearInterval(i);
         magic(f, img);
       }
@@ -130,5 +127,17 @@ document.addEventListener("DOMContentLoaded",
     function() {
         var input = document.getElementById('input');
         input.addEventListener('change', handleFiles);
+        
+        
+        var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        document.getElementById('safari').style.display = isSafari?"none":"";
+        
+        var img = document.getElementById('image1');
+        var banana = true;
+        img.onload = function() {
+          sampleImg(img, banana);
+          banana = false;
+        }
+
     }
 );
