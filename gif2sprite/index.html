@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Turn gif into sprite sheet</title>
+    <script language="javascript" src="gif2sprite.js"></script>
+</head>
+<body>
+<h1 style="color:red">
+    NOTE: Only works on <a href="http://www.apple.com/safari/" target="_blank">SAFARI</a>
+</h1>
+    <div>
+        SCALE:<input id="scale" type="text" value="0.9">
+        <br>
+        Output to:<select id="imagetype">
+            <option value="image/png">png</option>
+            <option value="image/jpeg">jpg</option>
+        </select>
+        <br><br>
+        Select a gif to load: <input type="file" id="input" accept="image/gif" />
+        <pre>
+            <div id="info">
+                
+            </div>
+        </pre>
+        <a id='link' target="_blank" href='#'>
+            <img src="" id="result">
+            <img src="" id="image1">
+        </a>
+    </div>
+</body>
+</html>
