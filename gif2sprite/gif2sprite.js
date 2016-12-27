@@ -36,8 +36,10 @@ function magic(f, img) {
     height = img.naturalHeight;
   var cols = calculateBestSize(width, height, f.length);
   var rows = Math.ceil(f.length / cols);
-  canvas.width = width * cols * scale;
-  canvas.height = height * rows * scale;
+  var finalColWidth = Math.round(width * scale);
+  var finalRowWidth = Math.round(height * scale);
+  canvas.width = cols * finalColWidth;
+  canvas.height = rows * finalRowWidth;
 
   var ctx = canvas.getContext("2d");
 
@@ -47,19 +49,19 @@ function magic(f, img) {
     putImage(
       f[i],
       ctx,
-      c * width * scale,
-      r * height * scale,
-      width * scale,
-      height * scale,
+      c * finalColWidth,
+      r * finalRowWidth,
+      finalColWidth,
+      finalRowWidth,
       0, 0,
       width, height);
   }
   
   document.getElementById('info').innerHTML = 
     "Scale: " + scale*100 + "%\n" +
-    "Sprite size: " + width*scale + "x" + height*scale + "\n" +
+    "Sprite size: " + Math.round(img.naturalWidth*scale) + "x" + Math.round(img.naturalHeight*scale) + "\n" +
     "Image type: " + imagetype + "\n" +
-    "Number of sprites: " + f.length + "\n" +
+    "Number of frames: " + f.length + "\n" +
     "Grid dimension: " + cols + "x" + rows + "\n" +
     "Full image size: " + canvas.width + "x" + canvas.height + "\n";
 
@@ -109,10 +111,10 @@ function sampleImg(img, banana) {
         }        
         document.getElementById('info').innerHTML = 
             "Scale: " + scale*100 + "%\n" +
-            "Sprite size: " + img.naturalWidth*scale + "x" + img.naturalHeight*scale + "\n" +
+            "Sprite size: " + Math.round(img.naturalWidth*scale) + "x" + Math.round(img.naturalHeight*scale) + "\n" +
             "Image type: " + imagetype + "\n" +
             "Number of frames: " + count + "\n" +
-            (Date.now() - lastUpdate < 100 ? "" : Math.ceil(3-(Date.now() - lastUpdate)/1000)+" sec.");
+            Math.ceil(3-(Date.now() - lastUpdate)/1000)+" sec.";
             
       if (Date.now() - lastUpdate > 2000 || banana && Date.now() - lastUpdate>400) {
         clearInterval(i);
