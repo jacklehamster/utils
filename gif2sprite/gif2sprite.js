@@ -82,6 +82,57 @@ function putImage(src, ctx, x, y, w, h) {
 }
 
 function sampleImg(img, banana) {
+    var gif = DOK.createGif(img.src);
+    gif.addEventListener("load", function(e) {
+        var width = gif.naturalWidth, height = gif.naturalHeight;
+        var cols = calculateBestSize(width, gif.naturalHeight, gif.frameCount);
+        var rows = Math.ceil(gif.frameCount / cols);
+        var scale = 1;
+        var finalColWidth = Math.round(width * scale);
+        var finalRowWidth = Math.round(height * scale);
+        var canvas = document.createElement('canvas');
+        canvas.width = cols * finalColWidth;
+        canvas.height = rows * finalRowWidth;
+
+        var ctx = canvas.getContext("2d");
+
+        for (var i = 0; i < gif.frameCount; i++) {
+            var c = i % cols;
+            var r = Math.floor(i / cols);
+
+            gif.putOnCanvas(
+                ctx,
+                0,0,
+                finalColWidth,
+                finalRowWidth,
+                c * finalColWidth,
+                r * finalRowWidth,
+                finalColWidth,
+                finalRowWidth,
+                i,
+                completedCallback
+            );
+        }
+
+        var count = 0;
+        function completedCallback() {
+            count++;
+            if(count>=gif.frameCount) {
+                setTimeout(function() {
+                    var imagetype = document.getElementById('imagetype').value;
+                    var url = canvas.toDataURL(imagetype);
+                    document.getElementById('result').src = url;
+                    var link = document.getElementById('link');
+                    link.href = url;
+                }, 100);
+            }
+        }
+//          console.log(size);
+//            console.log(gif);
+    });
+}
+
+function sampleImgDeprecated(img, banana) {
   var lastUpdate;
   var frames = {};
   var count = 0;
@@ -115,7 +166,7 @@ function sampleImg(img, banana) {
             "Image type: " + imagetype + "\n" +
             "Number of frames: " + count + "\n" +
             Math.ceil(3-(Date.now() - lastUpdate)/1000)+" sec.";
-            
+
       if (Date.now() - lastUpdate > 2000 || banana && Date.now() - lastUpdate>400) {
         clearInterval(i);
         magic(f, img);
@@ -131,8 +182,8 @@ document.addEventListener("DOMContentLoaded",
         input.addEventListener('change', handleFiles);
         
         
-        var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-        document.getElementById('safari').style.display = isSafari?"none":"";
+        //var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        //document.getElementById('safari').style.display = isSafari?"none":"";
         
         var img = document.getElementById('image1');
         var banana = true;
@@ -140,6 +191,5 @@ document.addEventListener("DOMContentLoaded",
           sampleImg(img, banana);
           banana = false;
         }
-
     }
 );

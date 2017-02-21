@@ -1,0 +1,6 @@
+[submodule "gif2sprite/jsgif"]
+	path = gif2sprite/jsgif
+	url = https://github.com/shachaf/jsgif
+[submodule "gif2sprite/JavaScript-MD5"]
+	path = gif2sprite/JavaScript-MD5
+	url = https://github.com/blueimp/JavaScript-MD5
